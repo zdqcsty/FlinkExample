@@ -1,11 +1,8 @@
 package xuwei.tech.batch.batchAPI;
 
-import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.CrossOperator;
 import org.apache.flink.api.java.operators.DataSource;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple3;
 
 import java.util.ArrayList;
 
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 public class BatchDemoCross {
 
     public static void main(String[] args) throws Exception{
-
         //获取运行环境
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
 
@@ -25,7 +21,6 @@ public class BatchDemoCross {
         ArrayList<String> data1 = new ArrayList<>();
         data1.add("zs");
         data1.add("ww");
-
         //tuple2<用户id，用户所在城市>
         ArrayList<Integer> data2 = new ArrayList<>();
         data2.add(1);
@@ -35,12 +30,6 @@ public class BatchDemoCross {
         DataSource<Integer> text2 = env.fromCollection(data2);
 
         CrossOperator.DefaultCross<String, Integer> cross = text1.cross(text2);
-
         cross.print();
-
-
     }
-
-
-
 }

@@ -1,3 +1,4 @@
+/*
 package xuwei.tech.streaming
 
 import java.util.Properties
@@ -60,3 +61,4 @@ object StreamingKafkaSinkScala {
   }
 
 }
+*/

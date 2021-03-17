@@ -7,13 +7,13 @@ import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
-import org.apache.flink.streaming.util.serialization.KeyedSerializationSchemaWrapper;
+import org.apache.flink.streaming.connectors.kafka.internals.KeyedSerializationSchemaWrapper;
 
 import java.util.Properties;
 
 /**
  * kafkaSink
- *
+ * <p>
  * Created by xuwei.tech on 2018/10/23.
  */
 public class StreamingKafkaSink {
@@ -42,7 +42,7 @@ public class StreamingKafkaSink {
         String topic = "t1";
 
         Properties prop = new Properties();
-        prop.setProperty("bootstrap.servers",brokerList);
+        prop.setProperty("bootstrap.servers", brokerList);
 
         //第一种解决方案，设置FlinkKafkaProducer011里面的事务超时时间
         //设置事务超时时间
@@ -53,7 +53,7 @@ public class StreamingKafkaSink {
         //FlinkKafkaProducer011<String> myProducer = new FlinkKafkaProducer011<>(brokerList, topic, new SimpleStringSchema());
 
         //使用仅一次语义的kafkaProducer
-        FlinkKafkaProducer011<String> myProducer = new FlinkKafkaProducer011<>(topic, new KeyedSerializationSchemaWrapper<String>(new SimpleStringSchema()), prop, FlinkKafkaProducer011.Semantic.EXACTLY_ONCE);
+        FlinkKafkaProducer011<String> myProducer = new FlinkKafkaProducer011<>(topic, new KeyedSerializationSchemaWrapper<>(new SimpleStringSchema()), prop, FlinkKafkaProducer011.Semantic.EXACTLY_ONCE);
         text.addSink(myProducer);
 
 

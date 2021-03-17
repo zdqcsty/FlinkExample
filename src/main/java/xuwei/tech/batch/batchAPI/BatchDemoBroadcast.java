@@ -95,11 +95,7 @@ public class BatchDemoBroadcast {
             }
         }).withBroadcastSet(toBroadcast, "broadCastMapName");//2：执行广播数据的操作
 
-
-
         result.print();
-
-
     }
 
 

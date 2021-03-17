@@ -12,7 +12,7 @@ import org.apache.flink.util.Collector;
  */
 public class BatchWordCountJava {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         String inputPath = "D:\\data\\file";
         String outPath = "D:\\data\\result";
 
@@ -22,18 +22,17 @@ public class BatchWordCountJava {
         DataSource<String> text = env.readTextFile(inputPath);
 
         DataSet<Tuple2<String, Integer>> counts = text.flatMap(new Tokenizer()).groupBy(0).sum(1);
-        counts.writeAsCsv(outPath,"\n"," ").setParallelism(1);
+        counts.writeAsCsv(outPath, "\n", " ").setParallelism(1);
         env.execute("batch word count");
 
     }
 
-
-    public static class Tokenizer implements FlatMapFunction<String,Tuple2<String,Integer>>{
+    public static class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {
         public void flatMap(String value, Collector<Tuple2<String, Integer>> out) throws Exception {
             String[] tokens = value.toLowerCase().split("\\W+");
-            for (String token: tokens) {
-                if(token.length()>0){
-                    out.collect(new Tuple2<String, Integer>(token,1));
+            for (String token : tokens) {
+                if (token.length() > 0) {
+                    out.collect(new Tuple2<String, Integer>(token, 1));
                 }
             }
         }

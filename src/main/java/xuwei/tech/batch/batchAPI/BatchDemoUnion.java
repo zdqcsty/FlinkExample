@@ -14,22 +14,20 @@ import java.util.ArrayList;
  */
 public class BatchDemoUnion {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         //获取运行环境
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
 
         ArrayList<Tuple2<Integer, String>> data1 = new ArrayList<>();
-        data1.add(new Tuple2<>(1,"zs"));
-        data1.add(new Tuple2<>(2,"ls"));
-        data1.add(new Tuple2<>(3,"ww"));
-
+        data1.add(new Tuple2<>(1, "zs"));
+        data1.add(new Tuple2<>(2, "ls"));
+        data1.add(new Tuple2<>(3, "ww"));
 
         ArrayList<Tuple2<Integer, String>> data2 = new ArrayList<>();
-        data2.add(new Tuple2<>(1,"lili"));
-        data2.add(new Tuple2<>(2,"jack"));
-        data2.add(new Tuple2<>(3,"jessic"));
-
+        data2.add(new Tuple2<>(1, "lili"));
+        data2.add(new Tuple2<>(2, "jack"));
+        data2.add(new Tuple2<>(3, "jessic"));
 
         DataSource<Tuple2<Integer, String>> text1 = env.fromCollection(data1);
         DataSource<Tuple2<Integer, String>> text2 = env.fromCollection(data2);
@@ -37,11 +35,5 @@ public class BatchDemoUnion {
         UnionOperator<Tuple2<Integer, String>> union = text1.union(text2);
 
         union.print();
-
-
-
     }
-
-
-
 }

@@ -1,11 +1,9 @@
 package xuwei.tech.batch.batchAPI;
 
-import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.common.operators.Order;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple3;
 
 import java.util.ArrayList;
 
@@ -28,9 +26,7 @@ public class BatchDemoFirstN {
         data.add(new Tuple2<>(1,"aw"));
         data.add(new Tuple2<>(1,"mw"));
 
-
         DataSource<Tuple2<Integer, String>> text = env.fromCollection(data);
-
 
         //获取前3条数据，按照数据插入的顺序
         text.first(3).print();
@@ -46,9 +42,5 @@ public class BatchDemoFirstN {
 
         //不分组，全局排序获取集合中的前3个元素，针对第一个元素升序，第二个元素倒序
         text.sortPartition(0,Order.ASCENDING).sortPartition(1,Order.DESCENDING).first(3).print();
-
     }
-
-
-
 }
