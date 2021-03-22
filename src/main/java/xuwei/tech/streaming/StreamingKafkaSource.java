@@ -1,9 +1,7 @@
 package xuwei.tech.streaming;
 
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.CheckpointingMode;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -14,7 +12,7 @@ import java.util.Properties;
 
 /**
  * kafkaSource
- *
+ * <p>
  * Created by xuwei.tech on 2018/10/23.
  */
 public class StreamingKafkaSource {
@@ -35,11 +33,10 @@ public class StreamingKafkaSource {
 
         //env.setStateBackend(new RocksDBStateBackend("hdfs://hadoop100:9000/flink/checkpoints",true));
 
-
         String topic = "t1";
         Properties prop = new Properties();
-        prop.setProperty("bootstrap.servers","hadoop110:9092");
-        prop.setProperty("group.id","con1");
+        prop.setProperty("bootstrap.servers", "hadoop110:9092");
+        prop.setProperty("group.id", "con1");
 
         FlinkKafkaConsumer011<String> myConsumer = new FlinkKafkaConsumer011<>(topic, new SimpleStringSchema(), prop);
 
@@ -50,7 +47,5 @@ public class StreamingKafkaSource {
         text.print().setParallelism(1);
 
         env.execute("StreamingFromCollection");
-
-
     }
 }

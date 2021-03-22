@@ -8,15 +8,14 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import xuwei.tech.streaming.custormSource.MyNoParalleSource;
 
 /**
- *
  * 使用自定义分析
  * 根据数字的奇偶性来分区
- *
+ * <p>
  * Created by xuwei.tech on 2018/10/23.
  */
 public class SteamingDemoWithMyParitition {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
@@ -30,7 +29,7 @@ public class SteamingDemoWithMyParitition {
             }
         });
         //分区之后的数据
-        DataStream<Tuple1<Long>> partitionData= tupleData.partitionCustom(new MyPartition(), 0);
+        DataStream<Tuple1<Long>> partitionData = tupleData.partitionCustom(new MyPartition(), 0);
 
         DataStream<Long> result = partitionData.map(new MapFunction<Tuple1<Long>, Long>() {
             @Override

@@ -3,15 +3,14 @@ package xuwei.tech.batch
 import org.apache.flink.api.scala.ExecutionEnvironment
 
 /**
-  * Created by xuwei.tech on 2018/10/8.
-  */
+ * Created by xuwei.tech on 2018/10/8.
+ */
 object BatchWordCountScala {
 
   def main(args: Array[String]): Unit = {
 
     val inputPath = "D:\\data\\file"
     val outPut = "D:\\data\\result2"
-
 
     val env = ExecutionEnvironment.getExecutionEnvironment
     val text = env.readTextFile(inputPath)
@@ -21,10 +20,10 @@ object BatchWordCountScala {
 
     val counts = text.flatMap(_.toLowerCase.split("\\W+"))
       .filter(_.nonEmpty)
-      .map((_,1))
+      .map((_, 1))
       .groupBy(0)
       .sum(1)
-    counts.writeAsCsv(outPut,"\n"," ").setParallelism(1)
+    counts.writeAsCsv(outPut, "\n", " ").setParallelism(1)
     env.execute("batch word count")
   }
 

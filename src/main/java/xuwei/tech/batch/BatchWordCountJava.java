@@ -24,7 +24,6 @@ public class BatchWordCountJava {
         DataSet<Tuple2<String, Integer>> counts = text.flatMap(new Tokenizer()).groupBy(0).sum(1);
         counts.writeAsCsv(outPath, "\n", " ").setParallelism(1);
         env.execute("batch word count");
-
     }
 
     public static class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {
