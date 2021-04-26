@@ -12,6 +12,7 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 
 public class SocketWindowWatermark {
@@ -25,7 +26,7 @@ public class SocketWindowWatermark {
         DataStreamSource<String> text = env.socketTextStream("10.130.7.202", 10008, "\n");
 
         DataStream stream = text
-                .assignTimestampsAndWatermarks(WatermarkStrategy.<String>forBoundedOutOfOrderness(Duration.ofSeconds(10))
+                .assignTimestampsAndWatermarks(WatermarkStrategy.<String>forBoundedOutOfOrderness(Duration.ofSeconds(4))
                         .withTimestampAssigner(
                                 new SerializableTimestampAssigner<String>() {
                                     @Override
@@ -37,7 +38,7 @@ public class SocketWindowWatermark {
 
 //        DataStream<Integer> initStream = env.addSource(text);
 
-        stream.windowAll(TumblingEventTimeWindows.of(Time.seconds(5)))
+        stream.windowAll(TumblingEventTimeWindows.of(Time.seconds(2)))
                 .process(new ProcessAllWindowFunction<String, String, TimeWindow>() {
                     @Override
                     public void process(Context context, Iterable<String> elements, Collector<String> out) throws Exception {
@@ -46,6 +47,8 @@ public class SocketWindowWatermark {
                         for (String e : elements) {
                             sb.append(e).append("\n");
                         }
+                        System.out.println("当前窗口为" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(context.window().getEnd()) + "---" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(context.window().getStart()));
+
                         out.collect(sb.toString());
                     }
                 }).print();
