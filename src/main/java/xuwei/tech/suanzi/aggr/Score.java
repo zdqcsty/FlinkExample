@@ -1,4 +1,4 @@
-package xuwei.tech.suanzi;
+package xuwei.tech.suanzi.aggr;
 
 public class Score {
 
