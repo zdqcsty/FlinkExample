@@ -35,10 +35,12 @@ public class StateExample {
 
         dataStream.keyBy(o -> o.memberId).map(
                 new RichMapFunction<Order, List<Order>>() {
+                    //mapstate是针对一个key来说的
                     MapState<Long, Order> mapState;
                     @Override
                     public void open(Configuration parameters) throws Exception {
                         super.open(parameters);
+
                         MapStateDescriptor<Long, Order> productRank = new MapStateDescriptor<Long, Order>("productRank", Long.class, Order.class);
                         mapState = getRuntimeContext().getMapState(productRank);
                     }
