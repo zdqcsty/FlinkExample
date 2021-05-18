@@ -1,8 +1,7 @@
-package xuwei.tech.suanzi.aggr;
+package xuwei.tech.suanzi;
 
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -16,21 +15,18 @@ public class SumTest {
 
         DataStreamSource<String> text = env.socketTextStream("10.130.7.202", 10008, "\n");
 
-        DataStream<Tuple2<Integer, Integer>> intData = text.map(new MapFunction<String, Tuple2<Integer, Integer>>() {
+        DataStream<Tuple3<String, String, Integer>> intData = text.map(new MapFunction<String, Tuple3<String, String, Integer>>() {
             @Override
-            public Tuple2<Integer, Integer> map(String value) throws Exception {
-                return new Tuple2<>(1, Integer.parseInt(value));
+            public Tuple3<String, String, Integer> map(String value) throws Exception {
+                String[] split = value.split(",");
+                return new Tuple3<String, String, Integer>(split[0], split[1], 1);
             }
         });
 
-        intData.keyBy(new KeySelector<Tuple2<Integer, Integer>, Integer>() {
-            @Override
-            public Integer getKey(Tuple2<Integer, Integer> value) throws Exception {
-                return value.f0;
-            }
-        })
+        intData.keyBy(0)
                 //随着数据的流入，这个数据是实时的累加的
-                .sum(1).print();
+                //sum 相关的话  如果有三个字段  根据一个进行keyby  另一个进行sum的话，还剩下一个的话会复制之前，就是一个值
+                .sum(2).print();
 
         env.execute("flink TumblingWindow");
     }
