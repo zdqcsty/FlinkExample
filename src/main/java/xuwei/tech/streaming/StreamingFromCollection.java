@@ -22,8 +22,6 @@ public class StreamingFromCollection {
         data.add(10);
         data.add(15);
         data.add(20);
-        
-
 
         //指定数据源
         DataStreamSource<Integer> collectionData = env.fromCollection(data);
@@ -37,10 +35,8 @@ public class StreamingFromCollection {
         });
 
         //直接打印
-        num.print().setParallelism(1);
+        num.print().setParallelism(2);
 
         env.execute("StreamingFromCollection");
-
-
     }
 }

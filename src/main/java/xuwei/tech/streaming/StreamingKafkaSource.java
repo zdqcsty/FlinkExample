@@ -1,3 +1,4 @@
+/*
 package xuwei.tech.streaming;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
@@ -7,14 +8,15 @@ import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 
-import java.util.ArrayList;
 import java.util.Properties;
 
+*/
 /**
  * kafkaSource
  * <p>
  * Created by xuwei.tech on 2018/10/23.
- */
+ *//*
+
 public class StreamingKafkaSource {
 
     public static void main(String[] args) throws Exception {
@@ -38,7 +40,7 @@ public class StreamingKafkaSource {
         prop.setProperty("bootstrap.servers", "hadoop110:9092");
         prop.setProperty("group.id", "con1");
 
-        FlinkKafkaConsumer011<String> myConsumer = new FlinkKafkaConsumer011<>(topic, new SimpleStringSchema(), prop);
+        FlinkKafkaConsumer011<String> myConsumer = new FlinkKafkaConsumer011<String>(topic, new SimpleStringSchema(), prop);
 
         myConsumer.setStartFromGroupOffsets();//默认消费策略
 
@@ -49,3 +51,4 @@ public class StreamingKafkaSource {
         env.execute("StreamingFromCollection");
     }
 }
+*/

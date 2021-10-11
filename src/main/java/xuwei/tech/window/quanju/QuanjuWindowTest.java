@@ -38,12 +38,12 @@ public class QuanjuWindowTest {
                 .process(new ProcessWindowFunction<Tuple2<String, Long>, String, String, GlobalWindow>() {
                     @Override
                     public void process(String s, Context context, Iterable<Tuple2<String, Long>> elements, Collector<String> out) throws Exception {
-                        Long l=0L;
-                        for (Tuple2<String, Long> tuple :elements){
+                        Long l = 0L;
+                        for (Tuple2<String, Long> tuple : elements) {
                             System.out.println("++++++++++++++");
-                            l=l+ tuple.f1;
+                            l = l + tuple.f1;
                         }
-                        out.collect("结果为  ---"+l);
+                        out.collect("结果为  ---" + l);
                     }
                 }).print();
 

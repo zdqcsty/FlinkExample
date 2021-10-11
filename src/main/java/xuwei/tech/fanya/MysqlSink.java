@@ -1,4 +1,4 @@
-package xuwei.tech.sink;
+package xuwei.tech.fanya;
 
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class MysqlSink extends RichSinkFunction<String> {
+public class MysqlSink extends RichSinkFunction<Integer> {
 
     private Statement statement = null;
     private Connection connection = null;
@@ -22,8 +22,9 @@ public class MysqlSink extends RichSinkFunction<String> {
     }
 
     @Override
-    public void invoke(String value, Context context) throws Exception {
-        statement.execute("insert into test values  ('" + value + "')");
+    public void invoke(Integer value, Context context) throws Exception {
+        System.out.println("into invoke");
+        statement.execute("update ceshi set maxint=" + value);
     }
 
     //初始化方法

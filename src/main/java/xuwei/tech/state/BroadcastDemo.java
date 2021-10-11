@@ -1,3 +1,4 @@
+/*
 package xuwei.tech.state;
 
 import org.apache.flink.api.common.functions.MapFunction;
@@ -15,9 +16,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.KeyedBroadcastProcessFunction;
 import org.apache.flink.util.Collector;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class BroadcastDemo {
 
@@ -57,7 +56,7 @@ public class BroadcastDemo {
             }
         }).broadcast(broadCastConfigDescriptor);
 
-        resuleStream.keyBy(0).connect(broadcastStream).process(new KeyedBroadcastProcessFunction<String, Tuple2<String, String>, String, String>() {
+        resuleStream.keyBy(0).rebalance().connect(broadcastStream).process(new KeyedBroadcastProcessFunction<String, Tuple2<String, String>, String, String>() {
             private transient MapState<String, Integer> counterState;
             int length = 5;
             // 必须和上文的 broadCastConfigDescriptor 一致，否则报 java.lang.IllegalArgumentException: The requested state does not exist 的错误
@@ -73,7 +72,6 @@ public class BroadcastDemo {
             @Override
             public void processElement(Tuple2<String, String> value, ReadOnlyContext ctx, Collector<String> out) throws Exception {
 
-
                 System.out.println("+++++");
 
                 final ReadOnlyBroadcastState<String, String> broadcastState = ctx.getBroadcastState(broadCastConfigDescriptor);
@@ -81,12 +79,13 @@ public class BroadcastDemo {
                 final String s = broadcastState.get(null);
 
                 System.out.println(s);
-
             }
 
-            /**
+            */
+/**
              * 这里处理广播流的数据
-             * */
+             * *//*
+
             @Override
             public void processBroadcastElement(String broadcast, Context ctx, Collector<String> out) throws Exception {
 
@@ -100,7 +99,8 @@ public class BroadcastDemo {
 
                 broadcastState.put(null, broadcast);
 
-              /*  BroadcastState<String, String> broadcastState = ctx.getBroadcastState(broadCastConfigDescriptor);
+              */
+/*  BroadcastState<String, String> broadcastState = ctx.getBroadcastState(broadCastConfigDescriptor);
                 // 前面说过，BroadcastState 类似于 MapState.这里的 broadcastStateKey 是随意指定的 key, 用于示例
                 // 更新广播流的规则到广播状态: BroadcastState
                 System.out.println("------------------");
@@ -110,7 +110,8 @@ public class BroadcastDemo {
                     final String key = iterator.next().getKey();
                     final String value = iterator.next().getValue();
                     System.out.printf(key + "---------" + value);
-                }*/
+                }*//*
+
             }
         }).print();
 
@@ -118,3 +119,4 @@ public class BroadcastDemo {
     }
 
 }
+*/

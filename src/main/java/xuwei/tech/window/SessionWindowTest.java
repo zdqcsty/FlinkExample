@@ -7,6 +7,7 @@ import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindows;
@@ -25,13 +26,16 @@ public class SessionWindowTest {
 
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
+        final int parallelism = env.getParallelism();
+        System.out.println(parallelism);
+
         DataStreamSource<String> text = env.socketTextStream("10.130.7.202", 10008, "\n");
 
-        text.map(new MapFunction<String, Tuple2<Long, String>>() {
+        final KeyedStream<Tuple2<Long, String>, String> tuple2StringKeyedStream = text.map(new MapFunction<String, Tuple2<Long, String>>() {
             @Override
             public Tuple2<Long, String> map(String value) throws Exception {
                 String[] split = value.split(",");
-                return new Tuple2(split[0], split[1]);
+                return new Tuple2(Long.parseLong(split[0]), split[1]);
             }
         }).assignTimestampsAndWatermarks(WatermarkStrategy
                 .<Tuple2<Long, String>>forBoundedOutOfOrderness(Duration.ofSeconds(2))
@@ -46,17 +50,27 @@ public class SessionWindowTest {
                     public String getKey(Tuple2<Long, String> value) throws Exception {
                         return value.f1;
                     }
-                }).window(EventTimeSessionWindows.withGap(Time.seconds(6)))
-                .process(new ProcessWindowFunction<Tuple2<Long, String>, Object, String, TimeWindow>() {
+                });
+
+
+        final int parallelism1 = tuple2StringKeyedStream.getParallelism();
+        System.out.println(parallelism1);
+
+
+        tuple2StringKeyedStream .window(EventTimeSessionWindows.withGap(Time.milliseconds(6000))).sum(0).print().setParallelism(1);
+               /* .process(new ProcessWindowFunction<Tuple2<Long, String>, String, String, TimeWindow>() {
                     @Override
-                    public void process(String s, Context context, Iterable<Tuple2<Long, String>> elements, Collector<Object> out) throws Exception {
+                    public void process(String s, Context context, Iterable<Tuple2<Long, String>> elements, Collector<String> out) throws Exception {
                         long end = context.window().getEnd();
                         long start = context.window().getStart();
                         System.out.println("window  start  end  is " + end + "---" + start);
-                    }
-                }).print();
+                        out.collect("window  start  end  is " + end + "---" + start);
+                    }*/
+//    }).
+//
+//    print();
 
         env.execute("flink TumblingWindow");
 
-    }
+}
 }

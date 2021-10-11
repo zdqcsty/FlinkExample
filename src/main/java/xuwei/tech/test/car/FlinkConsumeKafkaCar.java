@@ -1,14 +1,13 @@
-package xuwei.tech.kafka;
+package xuwei.tech.test.car;
 
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 
 import java.util.Properties;
 
-public class FlinkConsumeKafka {
+public class FlinkConsumeKafkaCar {
 
     public static void main(String[] args) throws Exception {
 
@@ -39,7 +38,7 @@ public class FlinkConsumeKafka {
         properties.setProperty("enable.auto.commit", "true");
         properties.setProperty("auto.commit.interval.ms", "1000");
 
-        FlinkKafkaConsumer<String> consumer = new FlinkKafkaConsumer<>("caranalyse", new SimpleStringSchema(), properties);
+        FlinkKafkaConsumer<Car> consumer = new FlinkKafkaConsumer<>("caranalyse", new JsonDeserializationSchema(), properties);
         consumer.setStartFromEarliest();
         return consumer;
     }

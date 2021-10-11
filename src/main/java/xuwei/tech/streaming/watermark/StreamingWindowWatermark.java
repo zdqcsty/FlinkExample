@@ -23,9 +23,8 @@ import java.util.List;
 
 
 /**
- *
  * Watermark 案例
- *
+ * <p>
  * Created by xuwei.tech.
  */
 public class StreamingWindowWatermark {
@@ -38,7 +37,6 @@ public class StreamingWindowWatermark {
 
         //设置使用eventtime，默认是使用processtime
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
-
 
         //设置并行度为1,默认并行度是当前机器的cpu数量
         env.setParallelism(1);
@@ -62,6 +60,7 @@ public class StreamingWindowWatermark {
             final Long maxOutOfOrderness = 10000L;// 最大允许的乱序时间是10s
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
             /**
              * 定义生成watermark的逻辑
              * 默认100ms被调用一次
@@ -78,8 +77,8 @@ public class StreamingWindowWatermark {
                 long timestamp = element.f1;
                 currentMaxTimestamp = Math.max(timestamp, currentMaxTimestamp);
                 long id = Thread.currentThread().getId();
-                System.out.println("currentThreadId:"+id+",key:"+element.f0+",eventtime:["+element.f1+"|"+sdf.format(element.f1)+"],currentMaxTimestamp:["+currentMaxTimestamp+"|"+
-                        sdf.format(currentMaxTimestamp)+"],watermark:["+getCurrentWatermark().getTimestamp()+"|"+sdf.format(getCurrentWatermark().getTimestamp())+"]");
+                System.out.println("currentThreadId:" + id + ",key:" + element.f0 + ",eventtime:[" + element.f1 + "|" + sdf.format(element.f1) + "],currentMaxTimestamp:[" + currentMaxTimestamp + "|" +
+                        sdf.format(currentMaxTimestamp) + "],watermark:[" + getCurrentWatermark().getTimestamp() + "|" + sdf.format(getCurrentWatermark().getTimestamp()) + "]");
                 return timestamp;
             }
         });
@@ -116,9 +115,6 @@ public class StreamingWindowWatermark {
 
         //注意：因为flink是懒加载的，所以必须调用execute方法，上面的代码才会执行
         env.execute("eventtime-watermark");
-
     }
-
-
 
 }

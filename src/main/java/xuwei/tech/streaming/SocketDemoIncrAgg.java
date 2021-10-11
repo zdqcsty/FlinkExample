@@ -55,11 +55,5 @@ public class SocketDemoIncrAgg {
 
         //这一行代码一定要实现，否则程序不执行
         env.execute("Socket window count");
-
     }
-
-
-
-
-
 }

@@ -11,7 +11,12 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-public class CheckPointTest {
+import java.net.URI;
+
+public class SavePointTest {
+
+    private  static final String CHECKPOINT_URI="hdfs:///test001/zgh/checkpoint";
+    private  static final String SAVEPOINT_URI="hdfs:///test001/zgh/savepoint";
 
     public static void main(String[] args) throws Exception {
         //获取Flink的运行环境
@@ -31,7 +36,11 @@ public class CheckPointTest {
         env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
         env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
 
-        StateBackend backend = new FsStateBackend("hdfs:///test001/zgh/checkpoint");
+        URI checkPoint=new URI(CHECKPOINT_URI);
+        URI savePoint=new URI(SAVEPOINT_URI);
+
+        StateBackend backend = new FsStateBackend(checkPoint,savePoint);
+
 
 //        设置statebackend
         env.setStateBackend(backend);

@@ -14,9 +14,7 @@ import java.time.Duration;
 /**
  * trigger 的定义表明   他是用来触发window的操作。
  * 当没有window的算子操作时，flink相当于来一个计算一个。
- *
  */
-
 
 public class WatermarkWithoutWindow {
 

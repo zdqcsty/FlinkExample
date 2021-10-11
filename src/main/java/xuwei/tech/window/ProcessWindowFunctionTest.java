@@ -55,8 +55,17 @@ public class ProcessWindowFunctionTest {
         KeyedStream.process(new KeyedProcessFunction<String, Tuple2<Long, String>, String>() {
             @Override
             public void processElement(Tuple2<Long, String> value, Context ctx, Collector<String> out) throws Exception {
-                System.out.println(value.f1);
+                ctx.timerService().registerProcessingTimeTimer(System.currentTimeMillis() + 10000);
+//                System.out.println(value.f1);
                 out.collect("aaa");
+            }
+
+            @Override
+            public void onTimer(long timestamp, OnTimerContext ctx, Collector<String> out) throws Exception {
+
+                System.out.println("bbbb");
+                out.collect("bbbb+++++++++++++");
+
             }
         }).print();
 

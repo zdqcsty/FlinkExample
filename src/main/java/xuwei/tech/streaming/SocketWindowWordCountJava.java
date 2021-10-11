@@ -13,24 +13,24 @@ import org.apache.flink.util.Collector;
 
 /**
  * 滑动窗口计算
- *
+ * <p>
  * 通过socket模拟产生单词数据
  * flink对数据进行统计计算
- *
+ * <p>
  * 需要实现每隔1秒对最近2秒内的数据进行汇总计算
- *
- *
+ * <p>
+ * <p>
  * Created by xuwei.tech on 2018/10/8.
  */
 public class SocketWindowWordCountJava {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         //获取需要的端口号
         int port;
         try {
             ParameterTool parameterTool = ParameterTool.fromArgs(args);
             port = parameterTool.getInt("port");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("No port set. use default port 9000--java");
             port = 9000;
         }
@@ -72,14 +72,18 @@ public class SocketWindowWordCountJava {
 
     }
 
-    public static class WordWithCount{
+    public static class WordWithCount {
         public String word;
         public long count;
-        public  WordWithCount(){}
-        public WordWithCount(String word,long count){
+
+        public WordWithCount() {
+        }
+
+        public WordWithCount(String word, long count) {
             this.word = word;
             this.count = count;
         }
+
         @Override
         public String toString() {
             return "WordWithCount{" +
@@ -88,7 +92,6 @@ public class SocketWindowWordCountJava {
                     '}';
         }
     }
-
 
 
 }

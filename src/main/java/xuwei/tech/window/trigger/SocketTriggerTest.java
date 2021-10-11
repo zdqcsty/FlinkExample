@@ -1,5 +1,6 @@
 package xuwei.tech.window.trigger;
 
+import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.AllWindowedStream;
@@ -24,8 +25,13 @@ public class SocketTriggerTest {
                 .map(new String2Integer())
                 .timeWindowAll(org.apache.flink.streaming.api.windowing.time.Time.seconds(20))
                 .trigger(CountTrigger.create());
-        stream.sum(0)
-                .print();
+        stream.reduce(new ReduceFunction<Integer>() {
+            @Override
+            public Integer reduce(Integer value1, Integer value2) throws Exception {
+                System.out.println("hahah");
+                return value1 + value2;
+            }
+        }).print();
 
         env.execute("Flink Streaming Java API Skeleton");
     }

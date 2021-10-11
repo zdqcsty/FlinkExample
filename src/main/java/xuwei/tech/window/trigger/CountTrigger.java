@@ -18,13 +18,13 @@ public class CountTrigger extends Trigger<Object, TimeWindow> {
         ctx.registerProcessingTimeTimer(window.maxTimestamp());
         // CONTINUE是代表不做输出，也即是，此时我们想要实现比如100条输出一次，
         // 而不是窗口结束再输出就可以在这里实现。
-        if (flag > 3) {
+/*        if (flag > 3) {
             flag = 0;
             return TriggerResult.FIRE;
         } else {
             flag++;
-        }
-        System.out.println("onElement : " + element);
+        }*/
+//        System.out.println("onElement : " + element);
         return TriggerResult.CONTINUE;
     }
 
@@ -35,7 +35,7 @@ public class CountTrigger extends Trigger<Object, TimeWindow> {
 
     @Override
     public TriggerResult onProcessingTime(long time, TimeWindow window, TriggerContext ctx) {
-        return TriggerResult.FIRE;
+        return TriggerResult.FIRE_AND_PURGE;
     }
 
     @Override
