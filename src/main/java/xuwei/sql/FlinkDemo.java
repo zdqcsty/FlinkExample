@@ -1,11 +1,5 @@
 package xuwei.sql;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
@@ -31,8 +25,8 @@ public class FlinkDemo {
 
         Table table = fsTableEnv.sqlQuery("select src from MyUserTable limit 10" );
 
+        //sql 的这里是Row  而不是 string或者其他类型
         fsTableEnv.toAppendStream(table, Row.class).print();
-
 
 
         fsEnv.execute("aaaa" );
