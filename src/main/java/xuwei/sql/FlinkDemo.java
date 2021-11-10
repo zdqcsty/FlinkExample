@@ -14,21 +14,19 @@ public class FlinkDemo {
         EnvironmentSettings bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
 
         //使用fsTableEnv
-        StreamExecutionEnvironment fsEnv = StreamExecutionEnvironment.getExecutionEnvironment();
-        StreamTableEnvironment fsTableEnv = StreamTableEnvironment.create(fsEnv, bsSettings);
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env, bsSettings);
 
         //创建kafka源
         String kafkaSourceSql = "CREATE TABLE MyUserTable ( src string,rowtime string ) WITH ( 'connector.type' = 'kafka', 'connector.version' = '0.10', 'connector.topic' = 'zhouhe_es5', 'update-mode' = 'append', 'connector.properties.bootstrap.servers' = '10.202.4.120:39092', 'connector.properties.zookeeper.connect' = '10.203.79.239:2181', 'connector.properties.group.id' = 'demoaaa', 'connector.startup-mode' = 'latest-offset' , 'format.type' = 'json')";
 
-        fsTableEnv.executeSql(kafkaSourceSql);
+        tableEnv.executeSql(kafkaSourceSql);
 
-
-        Table table = fsTableEnv.sqlQuery("select src from MyUserTable limit 10" );
+        Table table = tableEnv.sqlQuery("select src from MyUserTable limit 10" );
 
         //sql 的这里是Row  而不是 string或者其他类型
-        fsTableEnv.toAppendStream(table, Row.class).print();
+        tableEnv.toAppendStream(table, Row.class).print();
 
-
-        fsEnv.execute("aaaa" );
+        env.execute("aaaa" );
     }
 }
