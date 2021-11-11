@@ -26,6 +26,8 @@ public class BatchDemoCounter {
         //获取运行环境
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
 
+        env.setParallelism(1);
+
         DataSource<String> data = env.fromElements("a", "b", "c", "d");
         DataSet<String> result = data.map(new RichMapFunction<String, String>() {
             //1:创建累加器
@@ -50,6 +52,7 @@ public class BatchDemoCounter {
         }).setParallelism(8);
         //result.print();
         result.writeAsText("d:\\data\\count9");
+
         JobExecutionResult jobResult = env.execute("counter");
         //3：获取累加器
         int num = jobResult.getAccumulatorResult("num-lines");

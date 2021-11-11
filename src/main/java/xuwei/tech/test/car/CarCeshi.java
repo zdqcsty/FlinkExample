@@ -11,7 +11,7 @@ import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
 import java.time.Duration;
 
@@ -21,7 +21,7 @@ public class CarCeshi {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        final FlinkKafkaConsumer consumer = FlinkConsumeKafkaCar.getConsumer();
+        final FlinkKafkaConsumer010 consumer = FlinkConsumeKafkaCar.getConsumer();
 
         SingleOutputStreamOperator<Car> inputstream = env
                 .addSource(consumer).name("Main add upload kafka source").uid("Main add upload kafka source")

@@ -2,6 +2,7 @@ package xuwei.tech;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.runtime.state.StateBackend;
@@ -29,7 +30,7 @@ public class SavePointTest {
         env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
 
         //重启策略机制
-        env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3, 2000));
+        env.setRestartStrategy(RestartStrategies.failureRateRestart(5, Time.minutes(60),Time.seconds(30)));
         env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
         env.getCheckpointConfig().setCheckpointTimeout(60000);
 

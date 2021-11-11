@@ -7,7 +7,7 @@ import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer010;
 
 import java.util.Properties;
 
@@ -27,8 +27,7 @@ public class StreamingKafkaSink {
         env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
         env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
 
-        StateBackend backend = new FsStateBackend("hdfs://hebing2.novalocal:8020/user/zgh/checkpoint");
-
+        StateBackend backend = new FsStateBackend("hdfs:///home/hdp-360sec-net/zgh/dnsalert_checkpoint");
 //        设置statebackend
         env.setStateBackend(backend);
 
@@ -49,7 +48,7 @@ public class StreamingKafkaSink {
         //FlinkKafkaProducer011<String> myProducer = new FlinkKafkaProducer011<>(brokerList, topic, new SimpleStringSchema());
 
         //使用仅一次语义的kafkaProducer
-        FlinkKafkaProducer<String> myProducer = new FlinkKafkaProducer(topic, new SimpleStringSchema(), prop);
+        FlinkKafkaProducer010<String> myProducer = new FlinkKafkaProducer010(topic, new SimpleStringSchema(), prop);
         text.addSink(myProducer);
 
         env.execute("StreamingFromCollection");

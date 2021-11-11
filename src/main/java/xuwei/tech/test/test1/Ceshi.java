@@ -15,7 +15,7 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 import org.apache.flink.util.Collector;
 import xuwei.tech.fanya.MysqlSink;
 import xuwei.tech.kafka.FlinkConsumeKafka;
@@ -28,7 +28,10 @@ public class Ceshi {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        final FlinkKafkaConsumer consumer = FlinkConsumeKafka.getConsumer();
+        final FlinkKafkaConsumer010 consumer = FlinkConsumeKafka.getConsumer();
+
+
+
 
         SingleOutputStreamOperator<String> inputstream = env
                 .addSource(consumer).name("Main add upload kafka source").uid("Main add upload kafka source")

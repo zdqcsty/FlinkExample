@@ -4,7 +4,7 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
 import java.util.Properties;
 
@@ -14,7 +14,7 @@ public class FlinkConsumeKafka {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        final FlinkKafkaConsumer consumer = getConsumer();
+        final FlinkKafkaConsumer010 consumer = getConsumer();
 
         SingleOutputStreamOperator<String> inputstream = env
                 .addSource(consumer).name("Main add upload kafka source").uid("Main add upload kafka source")
@@ -30,7 +30,7 @@ public class FlinkConsumeKafka {
         env.execute("aaaa");
     }
 
-    public static FlinkKafkaConsumer getConsumer() {
+    public static FlinkKafkaConsumer010 getConsumer() {
 
         Properties properties = new Properties();
 
@@ -39,7 +39,7 @@ public class FlinkConsumeKafka {
         properties.setProperty("enable.auto.commit", "true");
         properties.setProperty("auto.commit.interval.ms", "1000");
 
-        FlinkKafkaConsumer<String> consumer = new FlinkKafkaConsumer<>("caranalyse", new SimpleStringSchema(), properties);
+        FlinkKafkaConsumer010<String> consumer = new FlinkKafkaConsumer010<>("caranalyse", new SimpleStringSchema(), properties);
         consumer.setStartFromEarliest();
         return consumer;
     }

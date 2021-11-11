@@ -3,7 +3,7 @@ package xuwei.tech.test.car;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
 import java.util.Properties;
 
@@ -13,7 +13,7 @@ public class FlinkConsumeKafkaCar {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        final FlinkKafkaConsumer consumer = getConsumer();
+        final FlinkKafkaConsumer010 consumer = getConsumer();
 
         SingleOutputStreamOperator<String> inputstream = env
                 .addSource(consumer).name("Main add upload kafka source").uid("Main add upload kafka source")
@@ -29,7 +29,7 @@ public class FlinkConsumeKafkaCar {
         env.execute("aaaa");
     }
 
-    public static FlinkKafkaConsumer getConsumer() {
+    public static FlinkKafkaConsumer010 getConsumer() {
 
         Properties properties = new Properties();
 
@@ -38,7 +38,7 @@ public class FlinkConsumeKafkaCar {
         properties.setProperty("enable.auto.commit", "true");
         properties.setProperty("auto.commit.interval.ms", "1000");
 
-        FlinkKafkaConsumer<Car> consumer = new FlinkKafkaConsumer<>("caranalyse", new JsonDeserializationSchema(), properties);
+        FlinkKafkaConsumer010<Car> consumer = new FlinkKafkaConsumer010<>("caranalyse", new JsonDeserializationSchema(), properties);
         consumer.setStartFromEarliest();
         return consumer;
     }

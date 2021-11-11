@@ -9,7 +9,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
 import java.util.Properties;
 import java.util.Random;
@@ -42,7 +42,7 @@ public class MysqlSinkOracle {
             env.setStateBackend(backend);
 
 
-            FlinkKafkaConsumer consumer = new FlinkKafkaConsumer("ceshi", new SimpleStringSchema(),properties);
+            FlinkKafkaConsumer010 consumer = new FlinkKafkaConsumer010("ceshi", new SimpleStringSchema(),properties);
 
             consumer.setStartFromEarliest();
 

@@ -35,9 +35,16 @@
             <artifactId>flink-streaming-java_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-json</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -105,7 +112,7 @@
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-            <version>2.5.0</version>
+            <version>0.10.2.1</version>
         </dependency>
 
         <dependency>
@@ -128,7 +135,7 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka_2.11</artifactId>
+            <artifactId>flink-connector-kafka-0.10_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
 

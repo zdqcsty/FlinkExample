@@ -12,7 +12,7 @@ import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 import org.apache.flink.util.Collector;
 
 import java.text.SimpleDateFormat;
@@ -32,7 +32,7 @@ public class KafkaTest1 {
         Properties properties = new Properties();
         properties.setProperty("bootstrap.servers", "10.130.7.202:9092");
         properties.setProperty("group.id", "demoaaa");
-        FlinkKafkaConsumer consumer = new FlinkKafkaConsumer("monitor-flink", new KafkaBeanDeserializat(), properties);
+        FlinkKafkaConsumer010 consumer = new FlinkKafkaConsumer010("monitor-flink", new KafkaBeanDeserializat(), properties);
         consumer.setStartFromEarliest();
         DataStream<KafkaBean> stream = env.addSource(consumer).returns(KafkaBean.class)
                 .assignTimestampsAndWatermarks(WatermarkStrategy.<KafkaBean>forBoundedOutOfOrderness(Duration.ofSeconds(2)).withTimestampAssigner(new SerializableTimestampAssigner<KafkaBean>() {
